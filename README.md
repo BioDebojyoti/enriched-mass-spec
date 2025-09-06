@@ -53,6 +53,7 @@ A **web-based enrichment application** built to process Spectranaut mass-spectro
   - **X-axis**: log₂FC  
   - **Y-axis**: –log₁₀(p-value)  
   - Visual highlighting of significant up- and down-regulated proteins.
+  - Volcano plot downloadable in three different file formats PNG, JPG, and PDF
 
 ### 4. Downstream Enrichment Analysis
 - The set of significant proteins (over cutoff thresholds) is subjected to enrichment analysis:
@@ -61,9 +62,91 @@ A **web-based enrichment application** built to process Spectranaut mass-spectro
 
 ---
 
-##  Tab Descriptions *(Based on Application UI)*
 
-> _As the webpage wasn’t accessible directly, these tab descriptions are inferred from typical Shiny/Dash layout and your description. If there are additional tabs (e.g., filtering, plots, export), you can update accordingly._
+
+---
+## Enrichment Analysis Options
+
+ - *GO over-representation analysis*
+
+   - Parameters
+      - P-value Threshold for Enrichment
+      - Ontology
+        - Molecular Function
+        - Cellular Component
+        - Biological Process
+      - gene set
+        - all
+        - up
+        - down
+
+    - Results
+      - Enrich GO results (Downloadable as CSV and EXCEL files)
+      - Heat Plot
+      - Barplot
+      - Dotplot
+      - Cnetplot
+      - Treeplot   
+
+ - *KEGG pathway over-representation analysis*
+
+   - Parameters
+      - P-value Threshold for Enrichment
+
+      - gene set
+        - all
+        - up
+        - down
+
+    - Results
+      - Enrich GO results (Downloadable as CSV and EXCEL files)
+      - Heat Plot
+      - Barplot
+      - Dotplot
+      - Cnetplot
+      - Treeplot  
+
+ - *REACTOME pathway over-representation analysis*
+
+   - Parameters
+      - P-value Threshold for Enrichment
+
+      - gene set
+        - all
+        - up
+        - down
+
+    - Results
+      - Enrich GO results (Downloadable as CSV and EXCEL files)
+      - Heat Plot
+      - Barplot
+      - Dotplot
+      - Cnetplot
+      - Treeplot
+        
+ - *Panther/ KEGG: enrichR over-representation analysis*
+      - Parameters
+        - P-value Threshold for Enrichment
+        - Database
+          - Panther 2016   
+          - Panther 2015   
+          - KEGG 2019 HUMAN  
+          - KEGG 2021 HUMAN  
+
+      - gene set
+        - all
+        - up
+        - down
+
+    - Results
+      - Enrich GO results (Downloadable as CSV and EXCEL files)
+      - Barplot
+      - Dotplot
+
+
+
+##  *Tab Descriptions*
+
 
 | Tab Name             | Purpose |
 |----------------------|---------|
@@ -71,9 +154,8 @@ A **web-based enrichment application** built to process Spectranaut mass-spectro
 | **Volcano Plot**     | Visualize differential expression; apply log₂FC and p-value cutoffs and interactively explore significant hits. |
 | **Enrichment**       | Run enrichment analysis on proteins passing thresholds; displays enriched terms, statistics, and visual summaries. |
 | **Settings / Parameters** | (If present) Fine-tune analysis choices, e.g., select which databases to use for enrichment, adjust multiple test correction method, etc. |
-| **Results / Export** | (If present) View and download tables or plots—e.g., volcano plot PNG, enrichment results CSV or JSON. |
+| **Results / Export** | (If present) View and download tables or plots—e.g., volcano plot PNG, enrichment results CSV or EXCEL. |
 
----
 
 ##  Example Usage
 
