@@ -42,10 +42,16 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
-  
+
   output$ui_body <- renderUI({
     navbarPage("Mass spectrometry data",
                # Page 1: Volcano plot and Data tables
+               tabPanel("About", fluidPage(
+                 page_sidebar(
+                  includeMarkdown("README.md")
+                 )
+                 )
+                 ),
                tabPanel("DE visualization", fluidPage(
                  page_sidebar(
                    "",
@@ -58,10 +64,10 @@ server <- function(input, output, session) {
                                                 uiOutput("log2fc_col_ui"),
                                                 uiOutput("pvalue_col_ui"),
                                                 uiOutput("protein_name_col_ui"),
-                                                uiOutput("gene_name_col_ui"), 
-                                                uiOutput("uniprotid_col_ui"), 
+                                                uiOutput("gene_name_col_ui"),
+                                                uiOutput("uniprotid_col_ui"),
                                                 uiOutput("protein_description_col_ui"),
-                                                uiOutput("log2FC_cutoff_ui"),                                
+                                                uiOutput("log2FC_cutoff_ui"),
                                                 uiOutput("pval_cutoff_ui"),
                                                 uiOutput("process_data_ui")
                                 ),
@@ -71,15 +77,15 @@ server <- function(input, output, session) {
                                                 uiOutput("genes_to_label_ui"),
                                                 uiOutput("volcano_filetype_ui"),
                                                 uiOutput("download_volcano_ui")
-                                                
+
                                 )
                      )
                    ),
                    tabsetPanel(
-                     tabPanel("Data table: reformatted", DT::dataTableOutput("data_reformatted")),                                           
-                     tabPanel("Data table: raw", DT::dataTableOutput("data_uploaded")),                                           
-                     tabPanel("Data table: clean", DT::dataTableOutput("cleaned_data")),                                         
-                     tabPanel("Data table: DE genes", DT::dataTableOutput("de_data")),                                         
+                     tabPanel("Data table: reformatted", DT::dataTableOutput("data_reformatted")),
+                     tabPanel("Data table: raw", DT::dataTableOutput("data_uploaded")),
+                     tabPanel("Data table: clean", DT::dataTableOutput("cleaned_data")),
+                     tabPanel("Data table: DE genes", DT::dataTableOutput("de_data")),
                      tabPanel("Volcano Plot", plotOutput("volcanoPlot", height = "800px", width = "100%")),
                      tabPanel("Data Tables: duplicate genes", DT::dataTableOutput("duplicated_rows"))
                    )
@@ -95,7 +101,7 @@ server <- function(input, output, session) {
                                 bsCollapsePanel("Parameters", style = "primary",
                                                 uiOutput("pval_threshold_ego_ui"),
                                                 uiOutput("ont_ui"),
-                                                uiOutput("gene_set_ego_ui"),                                
+                                                uiOutput("gene_set_ego_ui"),
                                                 uiOutput("pval_ego_cutoff_ui"),
                                                 uiOutput("enrich_ui")
                                 ),
@@ -105,7 +111,7 @@ server <- function(input, output, session) {
                      )
                    ),
                    tabsetPanel(id = "go_plots",
-                               tabPanel("Enrich GO results", DT::dataTableOutput("enrich_go_table")),          
+                               tabPanel("Enrich GO results", DT::dataTableOutput("enrich_go_table")),
                                tabPanel("Heat Plot", plotOutput("heatmapPlot", height = "800px", width = "100%")),
                                tabPanel("Barplot", plotOutput("barplot", height = "800px", width = "100%")),
                                tabPanel("Dotplot", plotOutput("dotplot", height = "800px", width = "100%")),
@@ -123,7 +129,7 @@ server <- function(input, output, session) {
                      bsCollapse(id = "sidebar_collapse_tab3", open = c("Parameters"), multiple = TRUE,
                                 bsCollapsePanel("Parameters", style = "primary",
                                                 uiOutput("pval_threshold_ekegg_ui"),
-                                                uiOutput("gene_set_ekegg_ui"),                                
+                                                uiOutput("gene_set_ekegg_ui"),
                                                 uiOutput("pval_ekegg_cutoff_ui"),
                                                 uiOutput("enrich_kegg_ui")
                                 ),
@@ -133,7 +139,7 @@ server <- function(input, output, session) {
                      )
                    ),
                    tabsetPanel(id = "kegg_plots",
-                               tabPanel("Enrich KEGG results", DT::dataTableOutput("enrich_ekegg_table")),          
+                               tabPanel("Enrich KEGG results", DT::dataTableOutput("enrich_ekegg_table")),
                                tabPanel("Heat Plot", plotOutput("heatmapPlot_kegg", height = "800px", width = "100%")),
                                tabPanel("Barplot", plotOutput("barplot_kegg", height = "800px", width = "100%")),
                                tabPanel("Dotplot", plotOutput("dotplot_kegg", height = "800px", width = "100%")),
@@ -151,7 +157,7 @@ server <- function(input, output, session) {
                      bsCollapse(id = "sidebar_collapse_tab4", open = c("Parameters"), multiple = TRUE,
                                 bsCollapsePanel("Parameters", style = "primary",
                                                 uiOutput("pval_threshold_ereactome_ui"),
-                                                uiOutput("gene_set_ereactome_ui"),                                
+                                                uiOutput("gene_set_ereactome_ui"),
                                                 uiOutput("pval_ereactome_cutoff_ui"),
                                                 uiOutput("enrich_reactome_ui")
                                 ),
@@ -161,7 +167,7 @@ server <- function(input, output, session) {
                      )
                    ),
                    tabsetPanel(id = "reactome_plots",
-                               tabPanel("Enrich REACTOME results", DT::dataTableOutput("enrich_ereactome_table")),          
+                               tabPanel("Enrich REACTOME results", DT::dataTableOutput("enrich_ereactome_table")),
                                tabPanel("Heat Plot", plotOutput("heatmapPlot_reactome", height = "800px", width = "100%")),
                                tabPanel("Barplot", plotOutput("barplot_reactome", height = "800px", width = "100%")),
                                tabPanel("Dotplot", plotOutput("dotplot_reactome", height = "800px", width = "100%")),
@@ -170,7 +176,7 @@ server <- function(input, output, session) {
                            )
                          )
                        )
-                    ),               
+                    ),
                # Page 5: Enrichment results
                tabPanel("Panther/ KEGG: enrichR over-representation analysis", fluidPage(
                  page_sidebar(
@@ -179,7 +185,7 @@ server <- function(input, output, session) {
                      bsCollapse(id = "sidebar_collapse_tab5", open = c("Parameters"), multiple = TRUE,
                                 bsCollapsePanel("Parameters", style = "primary",
                                                 uiOutput("pval_threshold_enrichr_ui"),
-                                                uiOutput("gene_set_enrichr_ui"),                                
+                                                uiOutput("gene_set_enrichr_ui"),
                                                 uiOutput("pval_enrichr_cutoff_ui"),
                                                 uiOutput("database_enrichR_ui"),
                                                 uiOutput("enrich_enrichr_ui")
@@ -190,7 +196,7 @@ server <- function(input, output, session) {
                      )
                    ),
                    tabsetPanel(id = "enrichr_plots",
-                               tabPanel("enrichR results", DT::dataTableOutput("enrich_enrichr_table")),          
+                               tabPanel("enrichR results", DT::dataTableOutput("enrich_enrichr_table")),
                                tabPanel("Barplot", plotOutput("barplot_enrichr", height = "800px", width = "100%")),
                                tabPanel("Dotplot", plotOutput("dotplot_enrichr", height = "800px", width = "100%"))
                           )
@@ -199,8 +205,8 @@ server <- function(input, output, session) {
                     )
                   )
                 })
-               
-  
+
+
   # Reactive expression to read the uploaded file
   raw_data_upload  <- reactive({
     req(input$file)
@@ -208,14 +214,14 @@ server <- function(input, output, session) {
     make_numeric_if_possible(df_raw)
   })
 
-  
+
   column_types <- reactive({
     req(raw_data_upload())
-    
+
     column_classes <- sapply(raw_data_upload(), class)
     numeric_columns <- names(column_classes[column_classes %in% c("numeric", "integer")])
     non_numeric_columns <- names(column_classes[!(column_classes %in% c("numeric", "integer"))])
-    
+
     list(numeric_columns, non_numeric_columns)
   })
   # Generate UI for selecting log2FC and p-value columns
@@ -223,46 +229,46 @@ server <- function(input, output, session) {
     req(column_types())
     selectInput("log2fc_col", "Select log2FC Column", choices = column_types()[[1]])
   })
-  
+
   output$pvalue_col_ui <- renderUI({
     req(column_types())
     selectInput("pvalue_col", "Select p-value Column", choices = column_types()[[1]])
   })
-  
+
   output$protein_name_col_ui <- renderUI({
     req(column_types())
     selectInput("protein_name_col", "Select protein column", choices = column_types()[[2]])
   })
-  
+
   output$gene_name_col_ui <- renderUI({
     req(column_types())
     selectInput("gene_name_col", "Select gene column", choices = column_types()[[2]])
   })
-  
+
   output$uniprotid_col_ui <- renderUI({
     req(column_types())
     selectInput("uniprotid_col", "Select uniprotid column", choices = column_types()[[2]])
   })
-  
+
   output$protein_description_col_ui <- renderUI({
     req(column_types())
     selectInput("protein_description_col", "Select protein description column", choices = column_types()[[2]])
   })
-  
+
   output$log2FC_cutoff_ui <- renderUI({
     req(raw_data_upload(), input$log2fc_col, input$pvalue_col)
     numericInput("log2FC_cutoff", "log2FC Cutoff", min = 0, value = 1.0)
   })
-  
+
   output$pval_cutoff_ui <- renderUI({
     req(raw_data_upload(), input$log2fc_col, input$pvalue_col)
     numericInput("pval_cutoff", "P-value Cutoff", min = 0, value = 0.05)
   })
-  
+
   output$process_data_ui <- renderUI({
     req(
-        input$file, 
-        input$log2FC_cutoff, 
+        input$file,
+        input$log2FC_cutoff,
         input$pval_cutoff,
         input$log2fc_col,
         input$pvalue_col,
@@ -272,53 +278,53 @@ server <- function(input, output, session) {
         input$protein_description_col
         )
     div(style = "display: flex; align-items: center;",
-        actionButton("process_data", "Process data", 
+        actionButton("process_data", "Process data",
                      style = "padding: 10px 10px; font-size: 16px; line-height: 1; border: 2px solid #ccc; border-radius: 4px; background-color: #f9f9f9; color: #333; margin-left: 3px;  margin-top: 3px; cursor: pointer;")
-    )  
+    )
   })
-  
+
   output$plot_volcano_ui <- renderUI({
-    req(data())  
+    req(data())
     div(style = "display: flex; align-items: center;",
         actionButton("plot_volcano", "Generate Volcano", style = "padding: 12px 12px; font-size: 16px; line-height: 1; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9; color: #333; margin-left: 3px; cursor: pointer;")
     )
   })
-  
+
   output$volcano_title_ui <- renderUI({
     req(plot_volcano())
     textInput("volcano_title", "title for volcano plot", value = "")
   })
-  
+
   output$genes_to_label_ui <- renderUI({
     req(plot_volcano(), clean_data())
-    selectizeInput("genes_to_label", "Select Genes to Label", choices = clean_data()[["GeneName"]], 
+    selectizeInput("genes_to_label", "Select Genes to Label", choices = clean_data()[["GeneName"]],
                    multiple = TRUE, selected = NULL,
                    options = list(placeholder = "Select from significant genes"))
   })
-  
+
   output$volcano_filetype_ui <- renderUI({
     req(plot_volcano())
     selectInput("volcano_filetype", "Select file type for Volcano Plot", choices = c("pdf", "png", "jpeg"))
   })
-  
+
   output$download_volcano_ui <- renderUI({
     req(plot_volcano())
     downloadButton("download_volcano", "Download Volcano Plot")})
-  
+
   data <- reactive({
-    req(input$file, 
-        input$log2FC_cutoff, 
+    req(input$file,
+        input$log2FC_cutoff,
         input$pval_cutoff,
         input$log2fc_col,
         input$pvalue_col,
         input$protein_name_col,
         input$gene_name_col,
         input$uniprotid_col,
-        input$protein_description_col, 
+        input$protein_description_col,
         input$process_data
         )
     read_mass_spec_tsv(input$file$datapath,
-                       log2FC_cutoff = input$log2FC_cutoff, 
+                       log2FC_cutoff = input$log2FC_cutoff,
                        pval_cutoff = input$pval_cutoff,
                        logfc_col2use = input$log2fc_col,
                        pval_col2use = input$pvalue_col,
@@ -327,7 +333,7 @@ server <- function(input, output, session) {
                        uniprotid_col = input$uniprotid_col,
                        protein_description_col = input$protein_description_col)
   })
-  
+
   # Generate and display data tables
   output$data_reformatted <- DT::renderDataTable({
     req(data(), input$process_data)
@@ -341,7 +347,7 @@ server <- function(input, output, session) {
       filter = 'top'
     )
   })
-  
+
   output$data_uploaded <- DT::renderDataTable({
     req(raw_data_upload())
     datatable(
@@ -354,7 +360,7 @@ server <- function(input, output, session) {
       filter = 'top'
     )
   })
-  
+
   clean_data <- reactive({
     req(data(), input$log2fc_col, input$log2FC_cutoff)
     filter_duplicate_genes(data(),
@@ -362,12 +368,12 @@ server <- function(input, output, session) {
                            y = "Pvalue",
                            log2FC_cutoff = input$log2FC_cutoff)
   })
-  
+
   output$cleaned_data <- DT::renderDataTable({
     req(clean_data(), input$process_data)
     datatable(clean_data() %>% as.data.frame(),
-              filter = "top", 
-              extensions = 'Buttons', 
+              filter = "top",
+              extensions = 'Buttons',
               options = list(
                 dom = 'Bflrtip',
                 buttons = list('copy', 'csv', 'excel', list(
@@ -382,19 +388,19 @@ server <- function(input, output, session) {
               )
     )
   })
-  
+
   duplicated_data <- reactive({
     req(data())
     duplicated_gene_rows(data(), x = "log2FC")
   })
-  
+
   output$duplicated_rows <- DT::renderDataTable({
     req(duplicated_data(), input$process_data)
     datatable(
-      duplicated_data() %>% 
+      duplicated_data() %>%
         as.data.frame(),
-      filter = "top", 
-      extensions = 'Buttons', 
+      filter = "top",
+      extensions = 'Buttons',
       options = list(
         dom = 'Bflrtip',
         buttons = list('copy', 'csv', 'excel', list(
@@ -409,8 +415,8 @@ server <- function(input, output, session) {
       )
     )
   })
-  
-  
+
+
   # Reactive to hold the filtered data
   significant_data <- eventReactive(input$process_data, {
     req(
@@ -419,22 +425,22 @@ server <- function(input, output, session) {
       input$pval_cutoff
     )
     data_to_use <- clean_data()
-    
+
     sig_data <- data_to_use %>%
       dplyr::filter(abs(log2FC) > input$log2FC_cutoff) %>%
       dplyr::filter(Pvalue < input$pval_cutoff)
-    
+
     sig_data
   })
-  
+
   output$de_data <- DT::renderDataTable({
     req(significant_data(), input$process_data)
     datatable(
       significant_data() %>%
         dplyr::select(all_of(c("log2FC", "Pvalue", "GeneName", "ProteinName")))  %>%
         dplyr::mutate(across(where(is.numeric), ~ round(., 3))),
-      filter = "top", 
-      extensions = 'Buttons', 
+      filter = "top",
+      extensions = 'Buttons',
       options = list(
         dom = 'Bflrtip',
         buttons = list('copy', 'csv', 'excel', list(
@@ -449,8 +455,8 @@ server <- function(input, output, session) {
       )
     )
   })
-  
-  
+
+
   # Update the choices for genes_to_label based on significant data
   observe({
     req(
@@ -458,9 +464,9 @@ server <- function(input, output, session) {
       input$log2FC_cutoff,
       input$pval_cutoff
     )
-    
+
     sig_data <- significant_data()
-    
+
     if (nrow(sig_data) > 0) {
       updateSelectizeInput(
         session,
@@ -479,7 +485,7 @@ server <- function(input, output, session) {
       )
     }
   })
-  
+
   # Generate the volcano plot
   plot_volcano <- eventReactive(input$plot_volcano, {
     req(clean_data())
@@ -494,13 +500,13 @@ server <- function(input, output, session) {
       title = input$volcano_title
     )  # You may add this argument for conditional labeling
   })
-  
+
   # Code for generating volcano plot based on selected genes
   output$volcanoPlot <- renderPlot({
     req(plot_volcano())
     plot_volcano()
   })
-  
+
   output$download_volcano <- downloadHandler(
     filename = function() {
       paste("volcano_plot.", input$volcano_filetype, sep = "")
@@ -520,7 +526,7 @@ server <- function(input, output, session) {
       }
     }
   )
-  
+
   # Perform enrichment analysis and generate plots
   output$pval_threshold_ego_ui <- renderUI({
     req(clean_data())
@@ -538,7 +544,7 @@ server <- function(input, output, session) {
     req(data(), input$log2fc_col)
     actionButton("enrich", "Perform Enrichment Analysis")
   })
-  
+
   enrich_results <- eventReactive(input$enrich, {
     req(clean_data(), input$ont)
     enrichGO_pathway(
@@ -552,7 +558,7 @@ server <- function(input, output, session) {
       gene_set = input$gene_set_ego
     )
   })
-  
+
   ###########
   # UI for download options (conditional on active tab)
   output$download_options_ui <- renderUI({
@@ -565,13 +571,13 @@ server <- function(input, output, session) {
       downloadButton("download_plot", "Download Plot")
     )
   })
-  
+
   output$enrich_go_table <- DT::renderDataTable({
       req(enrich_results())
       datatable(enrich_results()[[1]] %>% as.data.frame(),
                 caption = "enrich GO results",
-                filter = "top", 
-                extensions = 'Buttons', 
+                filter = "top",
+                extensions = 'Buttons',
                 options = list(
                   dom = 'Bflrtip',
                   buttons = list('copy', 'csv', 'excel', list(
@@ -586,8 +592,8 @@ server <- function(input, output, session) {
                   )
         )
     })
-    
-  
+
+
   # Download handler
   output$download_plot <- downloadHandler(
     filename = function() {
@@ -601,20 +607,20 @@ server <- function(input, output, session) {
                          "Cnetplot" = enrich_results()[[5]],
                          "Treeplot" = enrich_results()[[7]],
                          NULL)
-      
+
       req(plot_obj)  # Ensure the plot exists
-      
+
       ggsave(
         filename = file,
         plot = plot_obj,
         device = input$download_plot_type,
-        width = input$download_plot_width, 
+        width = input$download_plot_width,
         height = input$download_plot_height
       )
     }
   )
   ###########
-  
+
   output$heatmapPlot <- renderPlot({
     req(enrich_results())
     if (is.null(enrich_results()[[2]])) {
@@ -639,17 +645,17 @@ server <- function(input, output, session) {
     req(enrich_results())
     enrich_results()[[3]]
   })
-  
+
   output$dotplot <- renderPlot({
     req(enrich_results())
     enrich_results()[[4]]
   })
-  
+
   output$cnetplot <- renderPlot({
     req(enrich_results())
     enrich_results()[[5]]
   })
-  
+
   output$treeplot <- renderPlot({
     req(enrich_results())
     enrich_results()[[7]]
@@ -670,7 +676,7 @@ server <- function(input, output, session) {
     req(clean_data())
     actionButton("enrich_kegg", "Perform Enrichment Analysis")
   })
-  
+
   enrich_results_kegg <- eventReactive(input$enrich_kegg, {
     req(clean_data(), input$log2fc_col)
     enrichKEGG_pathway(
@@ -683,7 +689,7 @@ server <- function(input, output, session) {
       gene_set = input$gene_set_ekegg
     )
   })
-  
+
   # UI for download options (conditional on active tab)
   output$download_kegg_options_ui <- renderUI({
     req(input$kegg_plots)  # Ensure a tab is selected
@@ -695,13 +701,13 @@ server <- function(input, output, session) {
       downloadButton("download_ekegg_plot", "Download Plot")
     )
   })
-  
+
   output$enrich_ekegg_table <- DT::renderDataTable({
     req(enrich_results_kegg())
     datatable(enrich_results_kegg()[[1]] %>% as.data.frame(),
               caption = "enrich KEGG results",
-              filter = "top", 
-              extensions = 'Buttons', 
+              filter = "top",
+              extensions = 'Buttons',
               options = list(
                 dom = 'Bflrtip',
                 buttons = list('copy', 'csv', 'excel', list(
@@ -716,8 +722,8 @@ server <- function(input, output, session) {
               )
     )
   })
-  
-  
+
+
   # Download handler
   output$download_ekegg_plot <- downloadHandler(
     filename = function() {
@@ -731,14 +737,14 @@ server <- function(input, output, session) {
                          "Cnetplot" = enrich_results_kegg()[[5]],
                          "Treeplot" = enrich_results_kegg()[[7]],
                          NULL)
-      
+
       req(plot_obj_ekegg)  # Ensure the plot exists
-      
+
       ggsave(
         filename = file,
         plot = plot_obj_ekegg,
         device = input$download_ekegg_plot_type,
-        width = input$download_ekegg_plot_width, 
+        width = input$download_ekegg_plot_width,
         height = input$download_ekegg_plot_height
       )
     }
@@ -763,27 +769,27 @@ server <- function(input, output, session) {
       enrich_results_kegg()[[2]]
     }
   })
-  
+
   output$barplot_kegg <- renderPlot({
     req(enrich_results_kegg())
     enrich_results_kegg()[[3]]
   })
-  
+
   output$dotplot_kegg <- renderPlot({
     req(enrich_results_kegg())
     enrich_results_kegg()[[4]]
   })
-  
+
   output$cnetplot_kegg <- renderPlot({
     req(enrich_results_kegg())
     enrich_results_kegg()[[5]]
   })
-  
+
   output$treeplot_kegg <- renderPlot({
     req(enrich_results_kegg())
     enrich_results_kegg()[[7]]
   })
-  
+
   # UI for download options (conditional on active tab)
   output$download_reactome_options_ui <- renderUI({
     req(input$reactome_plots)  # Ensure a tab is selected
@@ -795,13 +801,13 @@ server <- function(input, output, session) {
       downloadButton("download_ereactome_plot", "Download Plot")
     )
   })
-  
+
   output$enrich_ereactome_table <- DT::renderDataTable({
     req(enrich_results_reactome())
     datatable(enrich_results_reactome()[[1]] %>% as.data.frame(),
               caption = "enrich REACTOME results",
-              filter = "top", 
-              extensions = 'Buttons', 
+              filter = "top",
+              extensions = 'Buttons',
               options = list(
                 dom = 'Bflrtip',
                 buttons = list('copy', 'csv', 'excel', list(
@@ -816,8 +822,8 @@ server <- function(input, output, session) {
               )
     )
   })
-  
-  
+
+
   # Download handler
   output$download_ereactome_plot <- downloadHandler(
     filename = function() {
@@ -831,28 +837,28 @@ server <- function(input, output, session) {
                                    "Cnetplot" = enrich_results_reactome()[[5]],
                                    "Treeplot" = enrich_results_reactome()[[7]],
                                    NULL)
-      
+
       req(plot_obj_ereactome)  # Ensure the plot exists
-      
+
       ggsave(
         filename = file,
         plot = plot_obj_ereactome,
         device = input$download_ereactome_plot_type,
-        width = input$download_ereactome_plot_width, 
+        width = input$download_ereactome_plot_width,
         height = input$download_ereactome_plot_height
       )
     }
   )
-  
 
-  
+
+
   # Reactome Pathway Analysis
   # Perform enrichment analysis and generate plots
   output$pval_threshold_ereactome_ui <- renderUI({
     req(clean_data())
     numericInput("pval_threshold_ereactome", "P-value Threshold for Enrichment", min = 0, value = 0.05)
   })
-  
+
   output$gene_set_ereactome_ui <- renderUI({
     req(clean_data())
     selectInput("gene_set_ereactome", "gene set", choices = c("all", "up", "down"))
@@ -861,7 +867,7 @@ server <- function(input, output, session) {
     req(clean_data())
     actionButton("enrich_reactome", "Perform Enrichment Analysis")
   })
-  
+
   enrich_results_reactome <- eventReactive(input$enrich_reactome, {
     req(clean_data())
     enrichReactome_pathway(
@@ -874,7 +880,7 @@ server <- function(input, output, session) {
       gene_set = input$gene_set_ereactome
     )
   })
-  
+
   output$heatmapPlot_reactome <- renderPlot({
     req(enrich_results_reactome())
     if (is.null(enrich_results_reactome()[[2]])) {
@@ -894,52 +900,52 @@ server <- function(input, output, session) {
       enrich_results_reactome()[[2]]
     }
   })
-  
+
   output$barplot_reactome <- renderPlot({
     req(enrich_results_reactome())
     enrich_results_reactome()[[3]]
   })
-  
+
   output$dotplot_reactome <- renderPlot({
     req(enrich_results_reactome())
     enrich_results_reactome()[[4]]
   })
-  
+
   output$cnetplot_reactome <- renderPlot({
     req(enrich_results_reactome())
     enrich_results_reactome()[[5]]
   })
-  
+
   output$treeplot_reactome <- renderPlot({
     req(enrich_results_reactome())
     enrich_results_reactome()[[7]]
   })
-  
-  
-  
-  
+
+
+
+
   # enrichPathway
   # Perform enrichment analysis and generate plots
   output$pval_threshold_enrichr_ui <- renderUI({
     req(clean_data())
     numericInput("pval_threshold_enrichR", "P-value Threshold for Enrichment", min = 0, value = 0.05)
   })
-  
+
   output$gene_set_enrichr_ui <- renderUI({
     req(clean_data())
     selectInput("gene_set_enrichr", "gene set", choices = c("all", "up", "down"))
   })
-  
+
   output$database_enrichR_ui <- renderUI({
     req(clean_data())
     selectInput("database_enrichR", "database", choices = c("Panther_2016", "Panther_2015", "KEGG_2021_Human", "KEGG_2019_Human"))
   })
-  
+
   output$enrich_enrichr_ui <- renderUI({
     req(clean_data())
     actionButton("enrich_enrichR", "Perform Enrichment Analysis")
   })
-  
+
   enrich_results_enrichR <- eventReactive(input$enrich_enrichR, {
     req(
       clean_data(),
@@ -958,8 +964,8 @@ server <- function(input, output, session) {
       gene_set = input$gene_set_enrichr
     )
   })
-  
-  
+
+
   output$barplot_enrichR <- renderPlot({
     req(enrich_results_enrichR())
     if (is.null(enrich_results_enrichR()[[2]])) {
@@ -979,13 +985,13 @@ server <- function(input, output, session) {
       enrich_results_enrichR()[[2]]
     }
   })
-  
+
   output$dotplot_enrichR <- renderPlot({
     req(enrich_results_enrichR())
     enrich_results_enrichR()[[3]]
   })
-  
-  
+
+
   # UI for download options (conditional on active tab)
   output$download_enrichr_options_ui <- renderUI({
     req(input$enrichr_plots)  # Ensure a tab is selected
@@ -997,13 +1003,13 @@ server <- function(input, output, session) {
       downloadButton("download_enrichr_plot", "Download Plot")
     )
   })
-  
+
   output$enrich_enrichr_table <- DT::renderDataTable({
     req(enrich_results_enrichR())
     datatable(enrich_results_enrichR()[[1]] %>% as.data.frame(),
               caption = "enrichR results",
-              filter = "top", 
-              extensions = 'Buttons', 
+              filter = "top",
+              extensions = 'Buttons',
               options = list(
                 dom = 'Bflrtip',
                 buttons = list('copy', 'csv', 'excel', list(
@@ -1018,8 +1024,8 @@ server <- function(input, output, session) {
               )
     )
   })
-  
-  
+
+
   # Download handler
   output$download_enrichr_plot <- downloadHandler(
     filename = function() {
@@ -1033,19 +1039,19 @@ server <- function(input, output, session) {
                                    "Cnetplot" = enrich_results_enrichR()[[5]],
                                    "Treeplot" = enrich_results_enrichR()[[7]],
                                    NULL)
-      
+
       req(plot_obj_enrichr)  # Ensure the plot exists
-      
+
       ggsave(
         filename = file,
         plot = plot_obj_enrichr,
         device = input$download_enrichr_plot_type,
-        width = input$download_enrichr_plot_width, 
+        width = input$download_enrichr_plot_width,
         height = input$download_enrichr_plot_height
       )
     }
   )
-  
+
 }
 
 
