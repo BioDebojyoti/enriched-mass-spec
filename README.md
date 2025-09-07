@@ -1,6 +1,5 @@
 # enriched-mass-spec
 
-# EnrichedMassSpec
 
 A **web-based enrichment application** built to process Spectranaut mass-spectrometry outputs and perform downstream differential expression and enrichment analyses with interactive visualizations. The application is freely available and is hosted at SciLifeLab Serve: [https://enrichedmassspec.serve.scilifelab.se/](https://enrichedmassspec.serve.scilifelab.se/)
 
@@ -175,3 +174,4 @@ A **web-based enrichment application** built to process Spectranaut mass-spectro
 # 5. Generate volcano plot; inspect highlighted proteins
 # 6. Run enrichment analysis on selected proteins
 # 7. Explore results and export plots or tables
+```
